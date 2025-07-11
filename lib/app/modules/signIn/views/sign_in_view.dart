@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../components/custom_button.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/social_login_button.dart';
 import '../../../controllers/auth_controller.dart';
+import '../../../components/custom_button.dart';
 
 class SignInView extends StatelessWidget {
   @override
@@ -101,7 +101,11 @@ class SignInView extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Sign In Button
-
+                  Obx(() => CustomButton(
+                    text: "Sign In",
+                    onPressed: authController.signIn,
+                    isLoading: authController.isLoading.value,
+                  )),
                   SizedBox(height: 20),
 
                   // Divider
@@ -168,7 +172,4 @@ class SignInView extends StatelessWidget {
       ),
     );
   }
-}
-
-class CustomButton {
 }

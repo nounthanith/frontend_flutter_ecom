@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_ecom/app/data/providers/api_provider.dart';
+import 'package:flutter_ecom/app/routes/app_pages.dart';
+import 'package:flutter_ecom/app/services/storage_service.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
+  final _api = Get.find<APIProvider>();
   // Observable variables
   var isSignIn = true.obs;
   var isLoading = false.obs;
@@ -9,8 +15,8 @@ class AuthController extends GetxController {
   var obscureConfirmPassword = true.obs;
 
   // Form controllers
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: "pich@gmail.com");
+  final passwordController = TextEditingController(text: "12345678");
   final confirmPasswordController = TextEditingController();
   final nameController = TextEditingController();
 
@@ -48,19 +54,22 @@ class AuthController extends GetxController {
 
       try {
         // Simulate API call
-        await Future.delayed(Duration(seconds: 2));
-
-        // Add your sign in logic here
-        Get.snackbar(
-          'Success',
-          'Signed in successfully!',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+        final response = await _api.signIn(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
         );
+
+        if (response.statusCode != 200) throw Exception("Failed to sign in: ${response.data['message']}");
+
+        final data = response.data;
+        StorageService.write(key: 'token', value: data['token']);
+        StorageService.write(key: 'user', value: jsonEncode(data['user']));
+
+        Get.offAllNamed(Routes.HOME);
       } catch (e) {
         Get.snackbar(
           'Error',
-          'Sign in failed. Please try again.',
+          'Login failed. Please try again. ${e.toString()}',
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
@@ -76,20 +85,36 @@ class AuthController extends GetxController {
       isLoading.value = true;
 
       try {
-        // Simulate API call
-        await Future.delayed(Duration(seconds: 2));
+        final name = nameController.text;
+        final email = emailController.text.trim();
+        final password = passwordController.text.trim();
+
+        final response = await _api.signUp(
+          name: name,
+          email: email,
+          password: password,
+        );
+
+        if (response.statusCode != 200) throw Exception("Failed to sign up: ${response.data['message']}");
 
         // Add your sign up logic here
-        Get.snackbar(
-          'Success',
-          'Account created successfully!',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+        Get.defaultDialog(
+          title: "Success",
+          middleText: "Registration successful",
+          confirm: TextButton(
+            onPressed: () {
+              Get.back(result: {'email': email, 'password': password});
+              toggleAuthMode();
+              clearControllers();
+            },
+            child: const Text("OK"),
+          ),
         );
       } catch (e) {
         Get.snackbar(
           'Error',
-          'Sign up failed. Please try again.',
+          'Sign up failed. Please try again.${e.toString()}',
+
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
