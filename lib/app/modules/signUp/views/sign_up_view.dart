@@ -20,20 +20,24 @@ class SignUpView extends StatelessWidget {
           SizedBox(height: 60),
 
           // Header
-          Text(
-            'Create Account',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          Center(
+            child: Text(
+              'Create Account',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
           SizedBox(height: 8),
-          Text(
-            'Sign up to get started',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
+          Center(
+            child: Text(
+              'Sign up to get started',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
             ),
           ),
           SizedBox(height: 40),
@@ -136,21 +140,21 @@ class SignUpView extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Social Login Buttons
-                  SocialLoginButton(
-                    text: 'Continue with Google',
-                    icon: Icons.g_mobiledata,
-                    onPressed: () {
-                      // Handle Google sign up
-                    },
-                  ),
-                  SizedBox(height: 12),
-                  SocialLoginButton(
-                    text: 'Continue with Facebook',
-                    icon: Icons.facebook,
-                    onPressed: () {
-                      // Handle Facebook sign up
-                    },
-                  ),
+                  // SocialLoginButton(
+                  //   text: 'Continue with Google',
+                  //   icon: Icons.g_mobiledata,
+                  //   onPressed: () {
+                  //     // Handle Google sign up
+                  //   },
+                  // ),
+                  // SizedBox(height: 12),
+                  // SocialLoginButton(
+                  //   text: 'Continue with Facebook',
+                  //   icon: Icons.facebook,
+                  //   onPressed: () {
+                  //     // Handle Facebook sign up
+                  //   },
+                  // ),
                 ],
               ),
             ),
@@ -164,14 +168,14 @@ class SignUpView extends StatelessWidget {
               children: [
                 Text(
                   "Already have an account? ",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(color: Colors.black),
                 ),
                 TextButton(
                   onPressed: authController.toggleAuthMode,
                   child: Text(
                     'Sign In',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

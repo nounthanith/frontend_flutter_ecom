@@ -12,34 +12,46 @@ class SignInView extends StatelessWidget {
     final AuthController authController = Get.find();
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 60),
-
-          // Header
-          Text(
-            'Welcome Back!',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          // Header Icon
+          Center(
+            child: Icon(
+              Icons.lock_outline,
+              size: 72,
+              color: Colors.black87,
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Sign in to your account',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
+          const SizedBox(height: 24),
+
+          // Welcome Text
+          const Center(
+            child: Text(
+              'Welcome Back',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+                color: Colors.black,
+              ),
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 8),
+          const Center(
+            child: Text(
+              'Sign in to continue',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
 
-          // Sign In Form
+          // ⬛️ Neubrutalism Form Box
           Container(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -58,12 +70,12 @@ class SignInView extends StatelessWidget {
                   // Email Field
                   CustomTextField(
                     controller: authController.emailController,
-                    label: 'Email',
-                    prefixIcon: Icons.email_outlined,
+                    label: 'Email Address',
+                    prefixIcon: Icons.email,
                     keyboardType: TextInputType.emailAddress,
                     validator: authController.validateEmail,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Password Field
                   Obx(() => CustomTextField(
@@ -81,7 +93,7 @@ class SignInView extends StatelessWidget {
                     ),
                     validator: authController.validatePassword,
                   )),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   // Forgot Password
                   Align(
@@ -90,15 +102,16 @@ class SignInView extends StatelessWidget {
                       onPressed: () {
                         // Handle forgot password
                       },
-                      child: Text(
+                      child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Color(0xFF667eea),
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Sign In Button
                   Obx(() => CustomButton(
@@ -106,70 +119,36 @@ class SignInView extends StatelessWidget {
                     onPressed: authController.signIn,
                     isLoading: authController.isLoading.value,
                   )),
-                  SizedBox(height: 20),
-
-                  // Divider
-                  Row(
-                    children: [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          'or',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-
-                  // Social Login Buttons
-                  SocialLoginButton(
-                    text: 'Continue with Google',
-                    icon: Icons.g_mobiledata,
-                    onPressed: () {
-                      // Handle Google sign in
-                    },
-                  ),
-                  SizedBox(height: 12),
-                  SocialLoginButton(
-                    text: 'Continue with Facebook',
-                    icon: Icons.facebook,
-                    onPressed: () {
-                      // Handle Facebook sign in
-                    },
-                  ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
 
           // Sign Up Link
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account? ",
-                  style: TextStyle(color: Colors.white70),
-                ),
-                TextButton(
-                  onPressed: authController.toggleAuthMode,
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Don't have an account?",
+                style: TextStyle(color: Colors.black54),
+              ),
+              TextButton(
+                onPressed: authController.toggleAuthMode,
+                child: const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
+
+
   }
 }

@@ -10,25 +10,16 @@ class AuthWrapper extends StatelessWidget {
     final AuthController authController = Get.find();
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667eea),
-              Color(0xFF764ba2),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Obx(() => AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child:
-            authController.isSignIn.value ? SignInView() : SignUpView(),
-          )),
-        ),
+      backgroundColor: Colors.grey[100], // light gray for neubrutalism base
+      body: SafeArea(
+        child: Obx(() => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: authController.isSignIn.value
+              ? SignInView()
+              : SignUpView(),
+        )),
       ),
     );
+
   }
 }
