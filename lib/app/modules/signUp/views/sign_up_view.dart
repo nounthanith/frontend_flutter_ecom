@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecom/app/modules/signIn/views/sign_in_view.dart';
 import 'package:get/get.dart';
 
 import '../../../components/custom_button.dart';
 import '../../../components/custom_text_field.dart';
-import '../../../components/social_login_button.dart';
 import '../../../controllers/auth_controller.dart';
 
 class SignUpView extends StatelessWidget {
@@ -168,14 +166,14 @@ class SignUpView extends StatelessWidget {
               children: [
                 Text(
                   "Already have an account? ",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.grey),
                 ),
                 TextButton(
                   onPressed: authController.toggleAuthMode,
                   child: Text(
                     'Sign In',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

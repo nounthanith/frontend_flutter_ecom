@@ -55,4 +55,21 @@ class APIProvider {
       rethrow;
     }
   }
+
+  Future<Response?> getProducts() async {
+    try {
+      return await dio.get("/products",
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+    } catch (e) {
+      rethrow; // Good: lets the controller handle the error
+    }
+  }
+
+
 }

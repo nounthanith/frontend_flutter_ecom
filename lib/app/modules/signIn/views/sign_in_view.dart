@@ -131,14 +131,14 @@ class SignInView extends StatelessWidget {
             children: [
               const Text(
                 "Don't have an account?",
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(color: Colors.grey),
               ),
               TextButton(
                 onPressed: authController.toggleAuthMode,
                 child: const Text(
                   'Sign Up',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
