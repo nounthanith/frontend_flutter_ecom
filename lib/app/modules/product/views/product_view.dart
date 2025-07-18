@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecom/app/modules/product/widgets/feature_product.dart';
 
 import 'package:get/get.dart';
 
@@ -39,118 +40,132 @@ class ProductView extends GetView<ProductController> {
           );
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  'Featured Products',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 250,
-                child: CarouselSlider.builder(
-                  itemCount: products.length,
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: 0.9,
-                    enableInfiniteScroll: products.length > 1,
-                  ),
-                  itemBuilder: (context, index, realIndex) {
-                    final product = products[index];
+        return Column(
+          children: [
+            FeaturedProductUsable(products: products),
 
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 4,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.network(
-                              product.image ?? '',
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: Colors.grey[400],
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.broken_image,
-                                      size: 64,
-                                      color: Colors.red[300],
-                                    ),
-                                  ),
-                                );
-                              },
-                              loadingBuilder: (
-                                context,
-                                child,
-                                loadingProgress,
-                              ) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
+            SizedBox(height: 20),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView.builder(
+                  itemCount: controller.product.value.categories?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final cate = controller.product.value.categories?[index];
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Category title
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            cate?.categoryName ?? "",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
                             ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(12),
+                          ),
+                        ),
+
+                        // Horizontal product list
+                        SizedBox(
+                          height: 220,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: cate?.products?.length ?? 0,
+                            separatorBuilder:
+                                (_, __) => const SizedBox(width: 12),
+                            itemBuilder: (context, index2) {
+                              final product = cate?.products?[index2];
+
+                              return Container(
+                                width: 150,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0.7),
-                                      Colors.transparent,
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 6,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      product.name ?? 'Unnamed Product',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                    // Product image
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(16),
+                                      ),
+                                      child: Image.network(
+                                        product?.image ?? "",
+                                        height: 130,
+                                        width: 150,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Container(
+                                                  height: 130,
+                                                  width: 150,
+                                                  color: Colors.grey[300],
+                                                  child: const Icon(
+                                                    Icons.broken_image,
+                                                    size: 48,
+                                                  ),
+                                                ),
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "\$${product.price ?? 'N/A'}",
-                                      style: const TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 14,
+                                    // Product details
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product?.name ?? "No Name",
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "\$${product?.price ?? 'N/A'}",
+                                                style: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              Icon(Icons.add_shopping_cart, size: 18,)
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          ],
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 24),
+                      ],
                     );
                   },
                 ),
               ),
-              const SizedBox(height: 20),
-              // TODO: You can add a Grid/List of products here if needed
-            ],
-          ),
+            ),
+          ],
         );
       }),
     );

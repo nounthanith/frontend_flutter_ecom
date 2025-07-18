@@ -25,6 +25,7 @@ class ProductController extends GetxController {
 
       final data = response.data;
       product.value = Product.fromJson(data);
+      print(product.value.featuredProducts);
     } on Exception catch (e) {
       Get.snackbar("Error", "Failed to fetch product: $e");
     } finally {
